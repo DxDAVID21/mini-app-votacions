@@ -1,18 +1,25 @@
-# La clau per al hot-reload serà l'ús de volums:
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: ["nodemon", "server.js"]
 
-#     Servei frontend:
-
-#         Construirà la imatge a partir del seu Dockerfile.
-
-#         Exposarà el port 8080 (o el que utilitzi el dev server de Vite/Vue) per accedir a l'aplicació des del navegador.
-
-#         Muntarà el codi font del client local a la carpeta de treball del contenidor mitjançant un volum. Això farà que qualsevol canvi als fitxers locals es reflecteixi a l'instant dins del contenidor, activant el hot-reload.
-
-#     Servei backend:
-
-#         Construirà la imatge a partir del seu Dockerfile.
-
-#         Exposarà el port 3000 per a la comunicació amb el client.
-
-#         Muntarà el codi font del servidor local al contenidor mitjançant un volum, permetent que nodemon reiniciï el servidor automàticament en desar canvis.
-
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

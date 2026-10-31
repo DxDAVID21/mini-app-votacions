@@ -1,0 +1,4 @@
+{
+  "ignore": ["votos.json", "node_modules/**", "package-lock.json"],
+  "delay": 300
+}

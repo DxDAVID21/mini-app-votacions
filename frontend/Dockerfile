@@ -1,6 +1,13 @@
-FROM baseimage;
+FROM node:22
 
+WORKDIR /app
 
-# Instal·larà les dependències amb npm install.
+COPY package*.json ./
 
-# El seu comandament per defecte serà executar el servidor de desenvolupament (npm run dev).
+RUN npm install
+
+COPY . .
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

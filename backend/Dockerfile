@@ -1,7 +1,15 @@
-FROM baseImage;
+FROM node:22
 
+WORKDIR /app
 
+COPY package*.json ./
 
-# Instal·larà les dependències (npm install). Es recomana fer servir una eina com nodemon per reiniciar automàticament el servidor quan es detectin canvis al codi.
+RUN npm install
 
-# El comandament per defecte executarà el servidor amb nodemon.
+RUN npm install -g nodemon
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["nodemon", "server.js"]
